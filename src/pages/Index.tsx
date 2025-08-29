@@ -35,7 +35,7 @@ const Index = () => {
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(/lovable-uploads/44e7954c-59e9-43c2-a366-ea7c4944d846.png)` }}
+          style={{ backgroundImage: `url(/lovable-uploads/5a7e57c6-6550-4ab1-a7ae-f6459e6d4a79.png)` }}
         >
           <div className="absolute inset-0 gradient-dark opacity-60"></div>
         </div>
