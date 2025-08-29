@@ -57,21 +57,21 @@ const Venue = () => {
         <section className="mb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold mb-6">MIT Campus - Building 32</h2>
+              <h2 className="text-3xl font-bold mb-6">MIT Samberg Conference Center</h2>
               <div className="space-y-4 mb-6">
                 <div className="flex items-start space-x-3">
                   <MapPin className="h-5 w-5 text-primary mt-1" />
                   <div>
                     <p className="font-semibold">Address</p>
-                    <p className="text-muted-foreground">32 Vassar Street<br />Cambridge, MA 02139</p>
+                    <p className="text-muted-foreground">50 Memorial Dr<br />Cambridge, MA 02142</p>
                   </div>
                 </div>
               </div>
               
               <p className="text-muted-foreground mb-6">
-                MIT's Building 32 (Ray and Maria Stata Center) is an iconic architectural landmark designed by Frank Gehry. 
-                This cutting-edge facility houses the Computer Science and Artificial Intelligence Laboratory (CSAIL) 
-                and offers world-class conference facilities in the heart of MIT's campus.
+                The MIT Samberg Conference Center is a state-of-the-art facility located along the scenic Charles River. 
+                This modern conference center offers cutting-edge technology, flexible meeting spaces, and stunning river views, 
+                providing the perfect environment for innovation and collaboration at MIT.
               </p>
 
               <div className="grid grid-cols-2 gap-4 mb-6">
