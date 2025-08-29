@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, Users, ArrowRight } from "lucide-react";
-import heroImage from "@/assets/hero-conference.jpg";
 
 const Index = () => {
   const highlights = [
@@ -36,7 +35,7 @@ const Index = () => {
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroImage})` }}
+          style={{ backgroundImage: `url(/lovable-uploads/44e7954c-59e9-43c2-a366-ea7c4944d846.png)` }}
         >
           <div className="absolute inset-0 gradient-dark opacity-90"></div>
         </div>
