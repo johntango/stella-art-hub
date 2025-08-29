@@ -20,23 +20,43 @@ const Admin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const ADMIN_SECRET = 'admin2026'; // In production, this should be from environment
-
-  const handleAuth = () => {
-    if (secretCode === ADMIN_SECRET) {
-      setIsAuthenticated(true);
-      localStorage.setItem('admin_authenticated', 'true');
-      fetchData();
-      toast({
-        title: "Access granted",
-        description: "Welcome to the admin panel",
+  const handleAuth = async () => {
+    setLoading(true);
+    try {
+      const response = await supabase.functions.invoke('validate-admin', {
+        body: { secret: secretCode }
       });
-    } else {
+
+      if (response.error) {
+        throw new Error(response.error.message);
+      }
+
+      const { valid } = response.data;
+
+      if (valid) {
+        setIsAuthenticated(true);
+        localStorage.setItem('admin_authenticated', 'true');
+        fetchData();
+        toast({
+          title: "Access granted",
+          description: "Welcome to the admin panel",
+        });
+      } else {
+        toast({
+          title: "Access denied",
+          description: "Invalid secret code",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Authentication error:', error);
       toast({
-        title: "Access denied",
-        description: "Invalid secret code",
+        title: "Authentication error",
+        description: "Failed to validate credentials",
         variant: "destructive",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -137,8 +157,8 @@ const Admin = () => {
                 onChange={(e) => setSecretCode(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleAuth()}
               />
-              <Button onClick={handleAuth} className="w-full">
-                Access Admin Panel
+              <Button onClick={handleAuth} className="w-full" disabled={loading}>
+                {loading ? "Validating..." : "Access Admin Panel"}
               </Button>
             </CardContent>
           </Card>
