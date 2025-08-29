@@ -5,33 +5,17 @@ import { Mail, Linkedin, Globe } from "lucide-react";
 
 const Committee = () => {
   const organizers = [
-    {
-      name: "Dr. Sarah Chen",
-      role: "Conference Chair",
-      affiliation: "MIT Media Lab",
-      bio: "Leading researcher in AI-driven design systems and human-computer interaction.",
-      email: "sarah.chen@mit.edu",
-      linkedin: "#",
-      website: "#"
-    },
-    {
-      name: "Prof. Marcus Rodriguez",
-      role: "Program Chair",
-      affiliation: "Stanford HCI Group",
-      bio: "Expert in adaptive user interfaces and machine learning applications in UX.",
-      email: "marcus@stanford.edu",
-      linkedin: "#",
-      website: "#"
-    },
-    {
-      name: "Dr. Aisha Patel",
-      role: "Industry Liaison",
-      affiliation: "Google AI",
-      bio: "Product design leader focusing on AI ethics and inclusive design practices.",
-      email: "aisha@google.com",
-      linkedin: "#",
-      website: "#"
-    }
+    { name: "Nam Suh" },
+    { name: "John Williams" },
+    { name: "Kate Thompson" },
+    { name: "Chris Brown" },
+    { name: "Michael Foley" },
+    { name: "Clarice de Souza" },
+    { name: "Pam Mantri" },
+    { name: "Erik Puik" },
+    { name: "Erwin Rauch" },
+    { name: "John Thomas" },
+    { name: "Gabriele Arcidiacono" }
   ];
 
   const reviewers = [
@@ -60,38 +44,18 @@ const Committee = () => {
         {/* Conference Organizers */}
         <section className="mb-16">
           <h2 className="text-3xl font-bold mb-8 text-center">Conference Organizers</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {organizers.map((organizer, index) => (
-              <Card key={index} className="shadow-card hover:shadow-glow transition-smooth">
-                <CardHeader>
-                  <div className="w-24 h-24 mx-auto mb-4 rounded-full gradient-accent"></div>
-                  <CardTitle className="text-center">{organizer.name}</CardTitle>
-                  <p className="text-center text-primary font-semibold">{organizer.role}</p>
-                  <p className="text-center text-sm text-muted-foreground">{organizer.affiliation}</p>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">{organizer.bio}</p>
-                  <div className="flex justify-center space-x-2">
-                    <Button size="sm" variant="outline" asChild>
-                      <a href={`mailto:${organizer.email}`}>
-                        <Mail className="h-4 w-4" />
-                      </a>
-                    </Button>
-                    <Button size="sm" variant="outline" asChild>
-                      <a href={organizer.linkedin}>
-                        <Linkedin className="h-4 w-4" />
-                      </a>
-                    </Button>
-                    <Button size="sm" variant="outline" asChild>
-                      <a href={organizer.website}>
-                        <Globe className="h-4 w-4" />
-                      </a>
-                    </Button>
+          <Card className="shadow-card">
+            <CardContent className="p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {organizers.map((organizer, index) => (
+                  <div key={index} className="flex items-center space-x-3 p-4 rounded-lg bg-muted/30">
+                    <div className="w-3 h-3 rounded-full bg-primary"></div>
+                    <span className="font-medium">{organizer.name}</span>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </section>
 
         {/* Program Committee */}
