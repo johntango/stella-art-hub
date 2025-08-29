@@ -9,7 +9,7 @@ const Index = () => {
   const highlights = [
     {
       icon: <Users className="h-8 w-8" />,
-      title: "300+ Attendees",
+      title: "100 Attendees",
       description: "Connect with researchers, designers, and industry leaders"
     },
     {
