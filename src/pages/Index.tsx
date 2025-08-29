@@ -53,12 +53,14 @@ const Index = () => {
             Join the leading minds shaping the future of human-computer interaction.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="shadow-hero bg-white text-conference-dark hover:bg-white/90">
-              Register Now
-              <ArrowRight className="ml-2 h-5 w-5" />
+            <Button size="lg" className="shadow-hero bg-white text-conference-dark hover:bg-white/90" asChild>
+              <a href="/payment">
+                Register Now
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </a>
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-              Submit Papers
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10" asChild>
+              <a href="/call-for-papers">Submit Papers</a>
             </Button>
           </div>
         </div>
@@ -125,11 +127,11 @@ const Index = () => {
             Don't miss this opportunity to be part of the conversation shaping the future of AI and design.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-hero">
-              Get Updates
+            <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-hero" asChild>
+              <a href="/payment">Get Updates</a>
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-              View Call for Papers
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10" asChild>
+              <a href="/call-for-papers">View Call for Papers</a>
             </Button>
           </div>
         </div>

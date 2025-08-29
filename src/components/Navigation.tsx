@@ -19,6 +19,7 @@ const Navigation = ({ currentPage }: NavigationProps) => {
     { id: "visa", label: "Visa", href: "/visa" },
     { id: "dates", label: "Dates", href: "/dates" },
     { id: "payment", label: "Registration", href: "/payment" },
+    { id: "admin", label: "Admin", href: "/admin" },
   ];
 
   return (
