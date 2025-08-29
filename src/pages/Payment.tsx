@@ -13,8 +13,8 @@ const Payment = () => {
   const pricingPlans = [
     {
       name: "Early Bird",
-      price: "$299",
-      originalPrice: "$399",
+      price: "$599",
+      originalPrice: "$699",
       deadline: "March 1, 2026",
       badge: "Limited Time",
       features: [
@@ -27,7 +27,7 @@ const Payment = () => {
     },
     {
       name: "Regular",
-      price: "$399",
+      price: "$499",
       deadline: "May 1, 2026",
       badge: "Standard",
       features: [
@@ -40,7 +40,7 @@ const Payment = () => {
     },
     {
       name: "Student",
-      price: "$149",
+      price: "$200",
       deadline: "May 15, 2026",
       badge: "Student ID Required",
       features: [
