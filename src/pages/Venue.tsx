@@ -15,28 +15,28 @@ const Venue = () => {
     {
       icon: <Plane className="h-6 w-6" />,
       title: "By Air",
-      description: "San Francisco International Airport (SFO) - 30 minutes by car",
+      description: "Logan International Airport (BOS) - 20 minutes by car",
       details: "Direct flights from major cities worldwide"
     },
     {
       icon: <Train className="h-6 w-6" />,
       title: "By Train",
-      description: "Caltrain and BART stations within walking distance",
-      details: "Easy connections from throughout the Bay Area"
+      description: "Red Line to Kendall/MIT station - 2 minutes walk",
+      details: "Easy connections from throughout Greater Boston"
     },
     {
       icon: <Car className="h-6 w-6" />,
       title: "By Car",
-      description: "Valet parking and nearby parking structures available",
-      details: "$20/day conference rate"
+      description: "MIT parking garages and nearby structures available",
+      details: "$15/day conference rate"
     }
   ];
 
   const nearbyHotels = [
-    { name: "The Westin San Francisco", distance: "0.2 miles", rate: "$299/night" },
-    { name: "Hotel Nikko San Francisco", distance: "0.4 miles", rate: "$249/night" },
-    { name: "Hilton San Francisco Union Square", distance: "0.5 miles", rate: "$279/night" },
-    { name: "The St. Regis San Francisco", distance: "0.3 miles", rate: "$399/night" }
+    { name: "The Kendall Hotel", distance: "0.3 miles", rate: "$259/night" },
+    { name: "Boston Marriott Cambridge", distance: "0.5 miles", rate: "$219/night" },
+    { name: "Le Méridien Cambridge-MIT", distance: "0.4 miles", rate: "$289/night" },
+    { name: "Hyatt Regency Cambridge", distance: "0.6 miles", rate: "$239/night" }
   ];
 
   return (
@@ -48,8 +48,8 @@ const Venue = () => {
             Conference Venue
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Join us at the prestigious Moscone Center in the heart of San Francisco, 
-            perfectly positioned for an inspiring conference experience.
+            Join us at the world-renowned MIT campus in Cambridge, Massachusetts, 
+            at the epicenter of technological innovation and academic excellence.
           </p>
         </div>
 
@@ -57,21 +57,21 @@ const Venue = () => {
         <section className="mb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold mb-6">Moscone Center West</h2>
+              <h2 className="text-3xl font-bold mb-6">MIT Campus - Building 32</h2>
               <div className="space-y-4 mb-6">
                 <div className="flex items-start space-x-3">
                   <MapPin className="h-5 w-5 text-primary mt-1" />
                   <div>
                     <p className="font-semibold">Address</p>
-                    <p className="text-muted-foreground">800 Howard Street<br />San Francisco, CA 94103</p>
+                    <p className="text-muted-foreground">32 Vassar Street<br />Cambridge, MA 02139</p>
                   </div>
                 </div>
               </div>
               
               <p className="text-muted-foreground mb-6">
-                The Moscone Center is San Francisco's premier convention facility, located in the heart 
-                of SOMA district. This world-class venue offers state-of-the-art facilities and is 
-                surrounded by the city's vibrant tech and design community.
+                MIT's Building 32 (Ray and Maria Stata Center) is an iconic architectural landmark designed by Frank Gehry. 
+                This cutting-edge facility houses the Computer Science and Artificial Intelligence Laboratory (CSAIL) 
+                and offers world-class conference facilities in the heart of MIT's campus.
               </p>
 
               <div className="grid grid-cols-2 gap-4 mb-6">
