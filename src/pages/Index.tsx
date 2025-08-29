@@ -37,7 +37,7 @@ const Index = () => {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(/lovable-uploads/44e7954c-59e9-43c2-a366-ea7c4944d846.png)` }}
         >
-          <div className="absolute inset-0 gradient-dark opacity-90"></div>
+          <div className="absolute inset-0 gradient-dark opacity-60"></div>
         </div>
         
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
