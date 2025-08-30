@@ -197,7 +197,9 @@ export type Database = {
     }
     Functions: {
       check_rate_limit: {
-        Args: { ip: unknown; max_attempts?: number; window_minutes?: number }
+        Args:
+          | { ip: string; max_attempts?: number; window_minutes?: number }
+          | { ip: unknown; max_attempts?: number; window_minutes?: number }
         Returns: boolean
       }
       cleanup_expired_sessions: {
