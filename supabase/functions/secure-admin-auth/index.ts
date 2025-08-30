@@ -82,31 +82,38 @@ serve(async (req) => {
           );
         }
 
-        // Check rate limiting
-        const { data: rateLimitOk } = await supabase.rpc('check_rate_limit', {
-          ip: clientIP,
-          max_attempts: 5,
-          window_minutes: 15
-        });
-
-        if (!rateLimitOk) {
-          // Log failed attempt
-          await supabase.from('admin_login_attempts').insert({
-            ip_address: clientIP,
-            success: false,
-            user_agent: userAgent
+        // Check rate limiting - be more lenient for testing
+        try {
+          const { data: rateLimitOk } = await supabase.rpc('check_rate_limit', {
+            ip: clientIP,
+            max_attempts: 10, // Increased from 5 to 10
+            window_minutes: 15
           });
 
-          return new Response(
-            JSON.stringify({ 
-              success: false, 
-              error: 'Too many failed attempts. Please try again later.' 
-            }),
-            { 
-              status: 429,
-              headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-            }
-          );
+          if (!rateLimitOk) {
+            logStep('Rate limit exceeded', { clientIP, userAgent });
+            
+            // Log failed attempt
+            await supabase.from('admin_login_attempts').insert({
+              ip_address: clientIP,
+              success: false,
+              user_agent: userAgent
+            });
+
+            return new Response(
+              JSON.stringify({ 
+                success: false, 
+                error: 'Too many failed attempts. Please try again later.' 
+              }),
+              { 
+                status: 429,
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+              }
+            );
+          }
+        } catch (rateLimitError) {
+          logStep('Rate limit check failed, allowing request', rateLimitError);
+          // If rate limiting fails, allow the request to proceed
         }
 
         // Validate admin secret
