@@ -8,8 +8,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
-import { Shield, Users, UserCheck, LogOut } from "lucide-react";
+import { Shield, Users, UserCheck, LogOut, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -17,41 +18,59 @@ const Admin = () => {
   const [attendees, setAttendees] = useState<any[]>([]);
   const [interests, setInterests] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [sessionToken, setSessionToken] = useState<string | null>(null);
+  const [sessionExpiry, setSessionExpiry] = useState<string | null>(null);
+  const [loginAttempts, setLoginAttempts] = useState(0);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleAuth = async () => {
     setLoading(true);
     try {
-      const response = await supabase.functions.invoke('validate-admin', {
-        body: { secret: secretCode }
+      const response = await supabase.functions.invoke('secure-admin-auth', {
+        body: { 
+          action: 'login',
+          secret: secretCode,
+          userAgent: navigator.userAgent
+        }
       });
 
       if (response.error) {
         throw new Error(response.error.message);
       }
 
-      const { valid } = response.data;
+      const { success, sessionToken: newToken, expiresAt, error } = response.data;
 
-      if (valid) {
+      if (success && newToken) {
         setIsAuthenticated(true);
-        localStorage.setItem('admin_authenticated', 'true');
+        setSessionToken(newToken);
+        setSessionExpiry(expiresAt);
+        setLoginAttempts(0);
+        
+        // Store session securely (with expiry check)
+        localStorage.setItem('admin_session', JSON.stringify({
+          token: newToken,
+          expiresAt
+        }));
+        
         fetchData();
         toast({
           title: "Access granted",
-          description: "Welcome to the admin panel",
+          description: "Welcome to the secure admin panel",
         });
       } else {
+        setLoginAttempts(prev => prev + 1);
         toast({
           title: "Access denied",
-          description: "Invalid secret code",
+          description: error || "Invalid credentials",
           variant: "destructive",
         });
       }
     } catch (error) {
       console.error('Authentication error:', error);
+      setLoginAttempts(prev => prev + 1);
       toast({
-        title: "Authentication error",
+        title: "Authentication error", 
         description: "Failed to validate credentials",
         variant: "destructive",
       });
@@ -60,9 +79,24 @@ const Admin = () => {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    if (sessionToken) {
+      try {
+        await supabase.functions.invoke('secure-admin-auth', {
+          body: { 
+            action: 'logout',
+            sessionToken
+          }
+        });
+      } catch (error) {
+        console.error('Logout error:', error);
+      }
+    }
+    
     setIsAuthenticated(false);
-    localStorage.removeItem('admin_authenticated');
+    setSessionToken(null);
+    setSessionExpiry(null);
+    localStorage.removeItem('admin_session');
     setSecretCode('');
     navigate('/');
   };
@@ -105,13 +139,57 @@ const Admin = () => {
     }
   };
 
-  useEffect(() => {
-    // Check if already authenticated
-    const isAuth = localStorage.getItem('admin_authenticated') === 'true';
-    if (isAuth) {
-      setIsAuthenticated(true);
-      fetchData();
+  const verifySession = async (token: string) => {
+    try {
+      const response = await supabase.functions.invoke('secure-admin-auth', {
+        body: { 
+          action: 'verify',
+          sessionToken: token
+        }
+      });
+
+      const { success } = response.data;
+      if (success) {
+        setIsAuthenticated(true);
+        setSessionToken(token);
+        fetchData();
+        return true;
+      }
+    } catch (error) {
+      console.error('Session verification failed:', error);
     }
+    return false;
+  };
+
+  useEffect(() => {
+    // Check for existing session
+    const sessionData = localStorage.getItem('admin_session');
+    if (sessionData) {
+      try {
+        const { token, expiresAt } = JSON.parse(sessionData);
+        
+        // Check if session is expired
+        if (new Date(expiresAt) > new Date()) {
+          setSessionExpiry(expiresAt);
+          verifySession(token);
+        } else {
+          // Clean up expired session
+          localStorage.removeItem('admin_session');
+        }
+      } catch (error) {
+        console.error('Invalid session data:', error);
+        localStorage.removeItem('admin_session');
+      }
+    }
+    
+    // Cleanup expired sessions periodically
+    const cleanup = setInterval(() => {
+      supabase.functions.invoke('secure-admin-auth', {
+        body: { action: 'cleanup' }
+      });
+    }, 60000); // Every minute
+
+    return () => clearInterval(cleanup);
   }, []);
 
   const getStatusColor = (status: string) => {
@@ -150,16 +228,34 @@ const Admin = () => {
               <p className="text-muted-foreground">Enter the secret code to continue</p>
             </CardHeader>
             <CardContent className="space-y-4">
+              {loginAttempts >= 3 && (
+                <Alert>
+                  <AlertTriangle className="h-4 w-4" />
+                  <AlertDescription>
+                    Multiple failed attempts detected. Access may be temporarily restricted.
+                  </AlertDescription>
+                </Alert>
+              )}
               <Input
                 type="password"
                 placeholder="Secret code"
                 value={secretCode}
                 onChange={(e) => setSecretCode(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleAuth()}
+                onKeyPress={(e) => e.key === 'Enter' && !loading && handleAuth()}
+                disabled={loading}
               />
-              <Button onClick={handleAuth} className="w-full" disabled={loading}>
-                {loading ? "Validating..." : "Access Admin Panel"}
+              <Button 
+                onClick={handleAuth} 
+                className="w-full" 
+                disabled={loading || loginAttempts >= 5}
+              >
+                {loading ? "Validating..." : loginAttempts >= 5 ? "Too Many Attempts" : "Access Secure Admin Panel"}
               </Button>
+              {loginAttempts >= 5 && (
+                <p className="text-sm text-muted-foreground text-center">
+                  Account temporarily locked. Please try again later.
+                </p>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -172,12 +268,17 @@ const Admin = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-4xl font-bold mb-2">Admin Dashboard</h1>
+            <h1 className="text-4xl font-bold mb-2">Secure Admin Dashboard</h1>
             <p className="text-muted-foreground">Conference registration management</p>
+            {sessionExpiry && (
+              <p className="text-xs text-muted-foreground mt-1">
+                Session expires: {new Date(sessionExpiry).toLocaleString()}
+              </p>
+            )}
           </div>
           <Button onClick={handleLogout} variant="outline">
             <LogOut className="h-4 w-4 mr-2" />
-            Logout
+            Secure Logout
           </Button>
         </div>
 

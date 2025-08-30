@@ -28,11 +28,45 @@ serve(async (req) => {
   try {
     logStep("Function started");
 
+    // Get the authenticated user
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      logStep('No authorization header provided');
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: 'Authentication required' 
+        }),
+        { 
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      );
+    }
+
+    const { data: { user }, error: authError } = await supabaseClient.auth.getUser(
+      authHeader.replace('Bearer ', '')
+    );
+
+    if (authError || !user) {
+      logStep('Authentication failed', authError);
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: 'Invalid authentication' 
+        }),
+        { 
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      );
+    }
+
     const { sessionId } = await req.json();
     if (!sessionId) {
       throw new Error("Session ID is required");
     }
-    logStep("Received session ID", { sessionId });
+    logStep("Received session ID", { sessionId, userEmail: user.email });
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", { 
       apiVersion: "2023-10-16" 
@@ -47,6 +81,25 @@ serve(async (req) => {
 
     if (session.payment_status !== 'paid') {
       throw new Error("Payment not completed");
+    }
+
+    // Verify the authenticated user's email matches the payment email
+    const customerEmail = session.customer_email || session.customer_details?.email;
+    if (user.email !== customerEmail) {
+      logStep('Email mismatch - security violation', { 
+        userEmail: user.email, 
+        paymentEmail: customerEmail 
+      });
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: 'Unauthorized: Email mismatch' 
+        }),
+        { 
+          status: 403,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      );
     }
 
     // Get customer details
