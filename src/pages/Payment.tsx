@@ -101,47 +101,31 @@ const Payment = () => {
   };
 
   const handlePaidRegistration = async (plan: string) => {
-    // For now, create a pending attendee record
-    // In a real implementation, this would integrate with Stripe
-    
-    const email = prompt("Please enter your email address for registration:");
-    const name = prompt("Please enter your full name:");
-    
-    if (!email || !name) {
-      toast({
-        title: "Registration cancelled",
-        description: "Email and name are required for registration.",
-        variant: "destructive",
-      });
-      return;
-    }
-    
     setLoading(true);
     
     try {
-      const { error } = await supabase
-        .from('attendee')
-        .insert([{
-          id: `att_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          email,
-          name,
-          affiliation: null,
-          status: 'PENDING'
-        }]);
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { planType: plan }
+      });
 
       if (error) {
         throw error;
       }
 
-      toast({
-        title: "Registration initiated!",
-        description: `Your ${plan} registration has been recorded. Payment integration coming soon.`,
-      });
+      if (data?.url) {
+        // Open Stripe checkout in a new tab
+        window.open(data.url, '_blank');
+        
+        toast({
+          title: "Redirecting to payment",
+          description: `Opening Stripe checkout for ${plan} registration in a new tab.`,
+        });
+      }
       
     } catch (error) {
-      console.error('Error creating attendee record:', error);
+      console.error('Error creating checkout session:', error);
       toast({
-        title: "Registration failed",
+        title: "Checkout failed",
         description: "Please try again or contact support.",
         variant: "destructive",
       });

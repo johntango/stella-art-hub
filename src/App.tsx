@@ -9,6 +9,7 @@ import Committee from "./pages/Committee";
 import CallForPapers from "./pages/CallForPapers";
 import Venue from "./pages/Venue";
 import Payment from "./pages/Payment";
+import PaymentSuccess from "./pages/PaymentSuccess";
 import Program from "./pages/Program";
 import Dates from "./pages/Dates";
 import Visa from "./pages/Visa";
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/dates" element={<Dates />} />
           <Route path="/visa" element={<Visa />} />
           <Route path="/payment" element={<Payment />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
