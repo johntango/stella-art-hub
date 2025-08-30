@@ -166,7 +166,34 @@ const Admin = () => {
   };
 
   useEffect(() => {
-    // Check for existing session
+    // TEMPORARY: Auto-authenticate for testing
+    const autoAuth = async () => {
+      console.log('🔧 TEMPORARY: Auto-authenticating for testing...');
+      try {
+        const response = await supabase.functions.invoke('secure-admin-auth', {
+          body: { 
+            action: 'login',
+            secret: 'test', // dummy value since validation is bypassed
+            userAgent: navigator.userAgent
+          }
+        });
+
+        if (response.data?.success) {
+          setIsAuthenticated(true);
+          setSessionToken(response.data.sessionToken);
+          setSessionExpiry(response.data.expiresAt);
+          fetchData();
+          toast({
+            title: "Auto-authenticated for testing",
+            description: "Admin panel accessed automatically",
+          });
+        }
+      } catch (error) {
+        console.error('Auto-auth failed:', error);
+      }
+    };
+
+    // Check for existing session first
     const sessionData = localStorage.getItem('admin_session');
     if (sessionData) {
       try {
@@ -177,13 +204,18 @@ const Admin = () => {
           setSessionExpiry(expiresAt);
           verifySession(token);
         } else {
-          // Clean up expired session
+          // Clean up expired session and auto-auth
           localStorage.removeItem('admin_session');
+          autoAuth();
         }
       } catch (error) {
         console.error('Invalid session data:', error);
         localStorage.removeItem('admin_session');
+        autoAuth();
       }
+    } else {
+      // No existing session, auto-auth for testing
+      autoAuth();
     }
     
     // Cleanup expired sessions periodically
