@@ -1,6 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import { createHash } from "https://deno.land/std@0.168.0/hash/mod.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -24,11 +23,22 @@ const getClientIP = (req: Request): string => {
          'unknown';
 };
 
-const generateSessionToken = (): string => {
-  const hash = createHash("sha256");
-  hash.update(crypto.getRandomValues(new Uint8Array(32)));
-  hash.update(Date.now().toString());
-  return hash.toString();
+const generateSessionToken = async (): Promise<string> => {
+  // Generate random bytes
+  const randomBytes = crypto.getRandomValues(new Uint8Array(32));
+  const timestamp = new TextEncoder().encode(Date.now().toString());
+  
+  // Combine random bytes and timestamp
+  const combined = new Uint8Array(randomBytes.length + timestamp.length);
+  combined.set(randomBytes);
+  combined.set(timestamp, randomBytes.length);
+  
+  // Hash using Web Crypto API
+  const hashBuffer = await crypto.subtle.digest('SHA-256', combined);
+  
+  // Convert to hex string
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 };
 
 serve(async (req) => {
@@ -121,7 +131,7 @@ serve(async (req) => {
         }
 
         // Create session token (valid for 8 hours)
-        const sessionTokenValue = generateSessionToken();
+        const sessionTokenValue = await generateSessionToken();
         const expiresAt = new Date(Date.now() + 8 * 60 * 60 * 1000); // 8 hours
 
         // For now, we'll use a system user ID until proper admin user creation
