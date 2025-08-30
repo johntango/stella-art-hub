@@ -26,6 +26,7 @@ const Admin = () => {
 
   const handleAuth = async () => {
     setLoading(true);
+    console.log('Attempting admin login...');
     try {
       const response = await supabase.functions.invoke('secure-admin-auth', {
         body: { 
@@ -35,7 +36,10 @@ const Admin = () => {
         }
       });
 
+      console.log('Login response:', response);
+
       if (response.error) {
+        console.error('Response error:', response.error);
         throw new Error(response.error.message);
       }
 
