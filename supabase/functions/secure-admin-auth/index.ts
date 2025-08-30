@@ -72,12 +72,17 @@ serve(async (req) => {
           );
         }
 
-        // Check rate limiting
-        const { data: rateLimitOk } = await supabase.rpc('check_rate_limit', {
+        // Check rate limiting - convert string IP to proper format for inet type
+        const { data: rateLimitOk, error: rateLimitError } = await supabase.rpc('check_rate_limit', {
           ip: clientIP,
           max_attempts: 5,
           window_minutes: 15
         });
+
+        if (rateLimitError) {
+          logStep('Rate limit check error', rateLimitError);
+          // Continue without rate limiting if there's an error
+        }
 
         if (!rateLimitOk) {
           // Log failed attempt
