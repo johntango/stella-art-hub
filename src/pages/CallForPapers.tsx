@@ -1,10 +1,26 @@
+import { useState } from "react";
 import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, FileText, Award, Users } from "lucide-react";
+import { useAuth } from "@/components/AuthProvider";
+import { AuthModal } from "@/components/AuthModal";
 
 const CallForPapers = () => {
+  const { user } = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+
+  const handleSubmitPaper = () => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+    // Proceed with paper submission for authenticated users
+    alert("Paper submission functionality will be implemented here");
+  };
+
   const topics = [
     "AI-Powered Design Tools and Automation",
     "Machine Learning for User Experience",
@@ -63,8 +79,8 @@ const CallForPapers = () => {
             Share your innovations with leading researchers and practitioners.
           </p>
           <div className="mt-8">
-            <Button size="lg" className="shadow-hero">
-              Submit Your Paper
+            <Button size="lg" className="shadow-hero" onClick={handleSubmitPaper}>
+              {user ? "Submit Your Paper" : "Sign In to Submit Paper"}
             </Button>
           </div>
         </div>
@@ -165,6 +181,14 @@ const CallForPapers = () => {
           </div>
         </section>
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal
+        open={showAuthModal}
+        onOpenChange={setShowAuthModal}
+        mode={authMode}
+        onModeChange={setAuthMode}
+      />
     </Layout>
   );
 };
