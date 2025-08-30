@@ -6,9 +6,13 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Check, CreditCard, Users, Star } from "lucide-react";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Payment = () => {
   const [registrationType, setRegistrationType] = useState<'interest' | 'paid'>('interest');
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   const pricingPlans = [
     {
@@ -53,15 +57,97 @@ const Payment = () => {
     }
   ];
 
-  const handleInterestRegistration = (e: React.FormEvent) => {
+  const handleInterestRegistration = async (e: React.FormEvent) => {
     e.preventDefault();
-    // This would normally connect to your backend
-    alert("Thank you for your interest! We'll send you updates about the conference.");
+    setLoading(true);
+    
+    const formData = new FormData(e.target as HTMLFormElement);
+    const email = formData.get('email') as string;
+    const name = formData.get('name') as string;
+    const affiliation = formData.get('affiliation') as string;
+    
+    try {
+      const { error } = await supabase
+        .from('interest')
+        .insert([{
+          email,
+          name: name || 'Not provided',
+          affiliation: affiliation || null,
+          notes: null
+        }]);
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Registration successful!",
+        description: "Thank you for your interest! We'll send you updates about the conference.",
+      });
+      
+      // Reset form
+      (e.target as HTMLFormElement).reset();
+      
+    } catch (error) {
+      console.error('Error registering interest:', error);
+      toast({
+        title: "Registration failed",
+        description: "Please try again or contact support.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handlePaidRegistration = (plan: string) => {
-    // This would normally integrate with Stripe
-    alert(`Redirecting to payment for ${plan} registration...`);
+  const handlePaidRegistration = async (plan: string) => {
+    // For now, create a pending attendee record
+    // In a real implementation, this would integrate with Stripe
+    
+    const email = prompt("Please enter your email address for registration:");
+    const name = prompt("Please enter your full name:");
+    
+    if (!email || !name) {
+      toast({
+        title: "Registration cancelled",
+        description: "Email and name are required for registration.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setLoading(true);
+    
+    try {
+      const { error } = await supabase
+        .from('attendee')
+        .insert([{
+          id: `att_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          email,
+          name,
+          affiliation: null,
+          status: 'PENDING'
+        }]);
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Registration initiated!",
+        description: `Your ${plan} registration has been recorded. Payment integration coming soon.`,
+      });
+      
+    } catch (error) {
+      console.error('Error creating attendee record:', error);
+      toast({
+        title: "Registration failed",
+        description: "Please try again or contact support.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -115,18 +201,18 @@ const Payment = () => {
                 <form onSubmit={handleInterestRegistration} className="space-y-4">
                   <div>
                     <Label htmlFor="email">Email Address *</Label>
-                    <Input id="email" type="email" required placeholder="your@email.com" />
+                    <Input id="email" name="email" type="email" required placeholder="your@email.com" />
                   </div>
                   <div>
                     <Label htmlFor="name">Full Name (Optional)</Label>
-                    <Input id="name" type="text" placeholder="Your full name" />
+                    <Input id="name" name="name" type="text" placeholder="Your full name" />
                   </div>
                   <div>
                     <Label htmlFor="affiliation">Affiliation (Optional)</Label>
-                    <Input id="affiliation" type="text" placeholder="Your organization" />
+                    <Input id="affiliation" name="affiliation" type="text" placeholder="Your organization" />
                   </div>
-                  <Button type="submit" className="w-full">
-                    Register Interest
+                  <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? "Registering..." : "Register Interest"}
                   </Button>
                 </form>
               </CardContent>
@@ -175,9 +261,10 @@ const Payment = () => {
                       className="w-full"
                       variant={index === 0 ? "default" : "outline"}
                       onClick={() => handlePaidRegistration(plan.name)}
+                      disabled={loading}
                     >
                       <CreditCard className="mr-2 h-4 w-4" />
-                      Register Now
+                      {loading ? "Processing..." : "Register Now"}
                     </Button>
                   </CardContent>
                 </Card>
