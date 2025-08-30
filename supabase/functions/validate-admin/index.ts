@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
 const corsHeaders = {
@@ -6,6 +7,8 @@ const corsHeaders = {
 }
 
 serve(async (req) => {
+  console.log('Admin validation function called');
+  
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -20,6 +23,7 @@ serve(async (req) => {
 
   try {
     const { secret } = await req.json()
+    console.log('Received secret validation request');
     
     if (!secret) {
       return new Response(
@@ -33,6 +37,7 @@ serve(async (req) => {
 
     // Get the admin secret from Supabase secrets
     const adminSecret = Deno.env.get('ADMIN_SECRET_KEY')
+    console.log('Admin secret configured:', !!adminSecret);
     
     if (!adminSecret) {
       console.error('ADMIN_SECRET_KEY not configured')
@@ -46,6 +51,7 @@ serve(async (req) => {
     }
 
     const isValid = secret === adminSecret
+    console.log('Secret validation result:', isValid);
 
     return new Response(
       JSON.stringify({ valid: isValid }),
