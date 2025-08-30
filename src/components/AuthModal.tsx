@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -59,6 +59,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({ open, onOpenChange, mode, 
           <DialogTitle>
             {mode === 'signup' ? 'Create Account' : 'Sign In'}
           </DialogTitle>
+          <DialogDescription>
+            {mode === 'signup' 
+              ? 'Create an account to register for the conference.' 
+              : 'Sign in to access your account and register for the conference.'
+            }
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
