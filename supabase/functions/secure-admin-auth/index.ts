@@ -23,8 +23,14 @@ const getClientIP = (req: Request): string => {
   const cfIP = req.headers.get('cf-connecting-ip');
   
   // Take only the first IP address if multiple are present
-  const rawIP = cfIP || realIP || forwarded || 'unknown';
-  const cleanIP = rawIP.split(',')[0].trim();
+  const rawIP = cfIP || realIP || forwarded || '127.0.0.1';
+  let cleanIP = rawIP.split(',')[0].trim();
+  
+  // Validate IP format - if invalid, use localhost
+  const ipRegex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+  if (!ipRegex.test(cleanIP)) {
+    cleanIP = '127.0.0.1';
+  }
   
   console.log('🔍 IP Resolution:', { forwarded, realIP, cfIP, rawIP, cleanIP });
   return cleanIP;
@@ -105,13 +111,17 @@ serve(async (req) => {
         console.log('💾 Logging attempt:', { ip_address: clientIP, success: isValidSecret, user_agent: userAgent });
         
         try {
-          await supabase.from('admin_login_attempts').insert({
+          const { error: logError } = await supabase.from('admin_login_attempts').insert({
             ip_address: clientIP,
             success: isValidSecret,
             user_agent: userAgent
           });
+          
+          if (logError) {
+            console.error('❌ Failed to log login attempt:', logError);
+          }
         } catch (insertError) {
-          console.error('❌ Failed to log login attempt:', insertError);
+          console.error('❌ Exception logging login attempt:', insertError);
         }
 
         if (!isValidSecret) {
@@ -144,6 +154,7 @@ serve(async (req) => {
 
         if (sessionError) {
           logStep('Session creation error', sessionError);
+          console.error('🔥 Full session error details:', JSON.stringify(sessionError, null, 2));
           throw sessionError;
         }
 
