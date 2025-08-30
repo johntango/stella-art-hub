@@ -7,7 +7,12 @@ const corsHeaders = {
 }
 
 serve(async (req) => {
-  console.log('Admin validation function called');
+  console.log('Admin validation function v2 called');
+  console.log('Environment check:', {
+    hasAdminSecret: !!Deno.env.get('ADMIN_SECRET_KEY'),
+    nodeEnv: Deno.env.get('NODE_ENV'),
+    supabaseUrl: !!Deno.env.get('SUPABASE_URL')
+  });
   
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
