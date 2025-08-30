@@ -18,9 +18,16 @@ const logStep = (step: string, data?: any) => {
 };
 
 const getClientIP = (req: Request): string => {
-  return req.headers.get('x-forwarded-for') || 
-         req.headers.get('x-real-ip') || 
-         'unknown';
+  const forwarded = req.headers.get('x-forwarded-for');
+  const realIP = req.headers.get('x-real-ip');
+  const cfIP = req.headers.get('cf-connecting-ip');
+  
+  // Take only the first IP address if multiple are present
+  const rawIP = cfIP || realIP || forwarded || 'unknown';
+  const cleanIP = rawIP.split(',')[0].trim();
+  
+  console.log('🔍 IP Resolution:', { forwarded, realIP, cfIP, rawIP, cleanIP });
+  return cleanIP;
 };
 
 const generateSessionToken = async (): Promise<string> => {
@@ -87,14 +94,25 @@ serve(async (req) => {
 
         // Validate admin secret
         const adminSecret = Deno.env.get('ADMIN_SECRET_KEY');
+        console.log('🔑 Secret Validation:', { 
+          providedSecret: secret, 
+          expectedSecret: adminSecret, 
+          secretsMatch: secret === adminSecret 
+        });
         const isValidSecret = secret === adminSecret;
 
         // Log login attempt
-        await supabase.from('admin_login_attempts').insert({
-          ip_address: clientIP,
-          success: isValidSecret,
-          user_agent: userAgent
-        });
+        console.log('💾 Logging attempt:', { ip_address: clientIP, success: isValidSecret, user_agent: userAgent });
+        
+        try {
+          await supabase.from('admin_login_attempts').insert({
+            ip_address: clientIP,
+            success: isValidSecret,
+            user_agent: userAgent
+          });
+        } catch (insertError) {
+          console.error('❌ Failed to log login attempt:', insertError);
+        }
 
         if (!isValidSecret) {
           return new Response(
