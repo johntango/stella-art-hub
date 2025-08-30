@@ -7,7 +7,7 @@ const corsHeaders = {
 }
 
 serve(async (req) => {
-  console.log('Admin validation function v2 called');
+  console.log('Admin validation function v3 called');
   console.log('Environment check:', {
     hasAdminSecret: !!Deno.env.get('ADMIN_SECRET_KEY'),
     nodeEnv: Deno.env.get('NODE_ENV'),
