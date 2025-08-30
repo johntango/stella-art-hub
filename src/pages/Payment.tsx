@@ -4,15 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Check, CreditCard, Users, Star } from "lucide-react";
+import { Check, CreditCard, Users, Star, LogIn } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/components/AuthProvider";
+import { AuthModal } from "@/components/AuthModal";
 
 const Payment = () => {
   const [registrationType, setRegistrationType] = useState<'interest' | 'paid'>('interest');
   const [loading, setLoading] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const { toast } = useToast();
+  const { user, signOut } = useAuth();
 
   const pricingPlans = [
     {
@@ -101,6 +106,16 @@ const Payment = () => {
   };
 
   const handlePaidRegistration = async (plan: string) => {
+    if (!user) {
+      setAuthMode('signin');
+      setAuthModalOpen(true);
+      toast({
+        title: "Authentication required",
+        description: "Please sign in to register for the conference.",
+      });
+      return;
+    }
+
     setLoading(true);
     
     try {
@@ -139,9 +154,37 @@ const Payment = () => {
       <div className="container mx-auto px-4 py-12">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 gradient-hero bg-clip-text text-transparent">
-            Registration
-          </h1>
+          <div className="flex justify-between items-center mb-6">
+            <div className="flex-1">
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 gradient-hero bg-clip-text text-transparent">
+                Registration
+              </h1>
+            </div>
+            <div className="flex items-center gap-4">
+              {user ? (
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-muted-foreground">
+                    Welcome, {user.email}
+                  </span>
+                  <Button variant="outline" onClick={signOut} size="sm">
+                    Sign Out
+                  </Button>
+                </div>
+              ) : (
+                <Button 
+                  variant="outline" 
+                  onClick={() => {
+                    setAuthMode('signin');
+                    setAuthModalOpen(true);
+                  }}
+                  size="sm"
+                >
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Sign In
+                </Button>
+              )}
+            </div>
+          </div>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Secure your spot at the premier AI & UX Design conference. 
             Choose from our flexible registration options.
@@ -289,6 +332,13 @@ const Payment = () => {
             </Card>
           </div>
         )}
+
+        <AuthModal
+          open={authModalOpen}
+          onOpenChange={setAuthModalOpen}
+          mode={authMode}
+          onModeChange={setAuthMode}
+        />
       </div>
     </Layout>
   );

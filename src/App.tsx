@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AuthProvider } from "@/components/AuthProvider";
 import Index from "./pages/Index";
 import Committee from "./pages/Committee";
 import CallForPapers from "./pages/CallForPapers";
@@ -21,26 +22,28 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider defaultTheme="system" storageKey="ai-ax-conference-theme">
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/committee" element={<Committee />} />
-          <Route path="/call-for-papers" element={<CallForPapers />} />
-          <Route path="/venue" element={<Venue />} />
-          <Route path="/program" element={<Program />} />
-          <Route path="/dates" element={<Dates />} />
-          <Route path="/visa" element={<Visa />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/payment-success" element={<PaymentSuccess />} />
-          <Route path="/admin" element={<Admin />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/committee" element={<Committee />} />
+            <Route path="/call-for-papers" element={<CallForPapers />} />
+            <Route path="/venue" element={<Venue />} />
+            <Route path="/program" element={<Program />} />
+            <Route path="/dates" element={<Dates />} />
+            <Route path="/visa" element={<Visa />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/admin" element={<Admin />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
     </ThemeProvider>
   </QueryClientProvider>
 );
