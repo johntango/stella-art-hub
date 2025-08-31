@@ -33,7 +33,7 @@ const Navigation = ({ currentPage }: NavigationProps) => {
                 <div className="h-8 w-8 rounded-lg gradient-hero shadow-glow"></div>
                 <div className="flex flex-col">
                   <span className="text-lg font-bold text-primary">AI & AX Design</span>
-                  <span className="text-xs text-muted-foreground">Sponsored by International Conference on Axiomatic Design 2026</span>
+                  <span className="text-xs text-muted-foreground">Sponsored by ICAD 2026</span>
                 </div>
               </div>
             </div>
