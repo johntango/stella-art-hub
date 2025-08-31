@@ -22,7 +22,7 @@ const Layout = ({ children, currentPage }: LayoutProps) => {
               </div>
               <p className="text-sm text-muted-foreground">
                 The premier conference bringing together AI researchers, UX designers, 
-                and technology innovators to shape the future of human-computer interaction.
+                and technology innovators to shape the future of human-computer design interaction.
               </p>
             </div>
             <div>
