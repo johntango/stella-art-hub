@@ -98,9 +98,9 @@ serve(async (req) => {
         // Temporarily disable rate limiting for debugging
         logStep('Rate limiting temporarily disabled for debugging');
 
-        // Temporarily disable secret validation for testing
-        console.log('🔑 TEMPORARILY BYPASSING SECRET VALIDATION FOR TESTING');
-        const isValidSecret = true; // Always return true for testing
+        // Validate the admin secret
+        const adminSecret = Deno.env.get('ADMIN_SECRET_KEY');
+        const isValidSecret = adminSecret && secret === adminSecret;
 
         // Log login attempt
         console.log('💾 Logging attempt:', { ip_address: clientIP, success: isValidSecret, user_agent: userAgent });
