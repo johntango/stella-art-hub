@@ -42,7 +42,7 @@ const Index = () => {
         
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
           <Badge className="mb-6 bg-white/20 text-white border-white/30">
-            Sponsored by International Conference on Axiomatic Design
+            June 24–25, 2026
           </Badge>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             AI & Axiomatic Design
