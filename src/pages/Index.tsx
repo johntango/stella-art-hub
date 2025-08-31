@@ -42,15 +42,15 @@ const Index = () => {
         
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
           <Badge className="mb-6 bg-white/20 text-white border-white/30">
-            June 24–25, 2026
+            Sponsored by International Conference on Axiomatic Design
           </Badge>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             AI & Axiomatic Design
             <span className="block gradient-accent bg-clip-text text-transparent">@MIT</span>
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-            Where artificial intelligence meets user experience design. 
-            Join the leading minds shaping the future of human-computer interaction.
+            Where artificial intelligence meets human principled design. 
+            Join the leading minds shaping the future of human-computer design.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="shadow-hero bg-white text-conference-dark hover:bg-white/90" asChild>
