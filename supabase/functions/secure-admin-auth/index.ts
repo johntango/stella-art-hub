@@ -133,9 +133,18 @@ serve(async (req) => {
         const sessionTokenValue = await generateSessionToken();
         const expiresAt = new Date(Date.now() + 8 * 60 * 60 * 1000); // 8 hours
 
-        // For now, we'll use a system user ID until proper admin user creation
-        // In production, you should create actual admin users in auth.users
-        const systemUserId = '00000000-0000-0000-0000-000000000000';
+        // Use the actual admin user ID from the database
+        const { data: adminUser } = await supabase
+          .from('user_roles')
+          .select('user_id')
+          .eq('role', 'admin')
+          .single();
+        
+        if (!adminUser) {
+          throw new Error('No admin user found');
+        }
+        
+        const systemUserId = adminUser.user_id;
 
         const { error: sessionError } = await supabase
           .from('admin_sessions')
