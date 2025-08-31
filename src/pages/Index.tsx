@@ -24,9 +24,9 @@ const Index = () => {
   ];
 
   const speakers = [
-    { name: "Dr. Yann LeCun", affiliation: "Meta AI", topic: "The Future of AI and Human Creativity" },
-    { name: "Susan Kare", affiliation: "Apple (Former)", topic: "Design in the Age of AI" },
-    { name: "Dr. Fei-Fei Li", affiliation: "Stanford HAI", topic: "Human-Centered AI" }
+    { name: "Dr. Yann LeKun", affiliation: "Meta AI", topic: "The Future of AI and Human Creativity" },
+    { name: "Susan Care", affiliation: "Apple (Former)", topic: "Design in the Age of AI" },
+    { name: "Dr. Fei-Fei Zu", affiliation: "Stanford HAI", topic: "Human-Centered AI" }
   ];
 
   return (
@@ -49,7 +49,7 @@ const Index = () => {
             <span className="block gradient-accent bg-clip-text text-transparent">@MIT</span>
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-            Where artificial intelligence meets human principled design. 
+            Where principled artificial intelligence meets human driven design. 
             Join the leading minds shaping the future of human-computer design.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
