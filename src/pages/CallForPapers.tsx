@@ -22,18 +22,24 @@ const CallForPapers = () => {
   };
 
   const topics = [
-    "AI-Powered Design Tools and Automation",
-    "Machine Learning for User Experience",
-    "Generative AI in Creative Processes",
-    "Human-AI Collaboration in Design",
-    "Ethical AI in User Interface Design",
-    "Personalization and Adaptive Interfaces",
-    "Voice and Conversational UI",
-    "AR/VR and Immersive Design",
-    "Accessibility in AI-Driven Systems",
-    "Data Visualization and AI",
-    "Design Systems and AI Integration",
-    "User Research with AI Assistance"
+    "Axiomatic Design Principles and AI Integration",
+    "Principled AI for Design Automation",
+    "Design Axioms in Machine Learning Systems",
+    "Independence Axiom in AI-Driven Design",
+    "Information Axiom for AI Design Optimization",
+    "Complexity Theory in AI-Assisted Design",
+    "Systematic Design Methodologies with AI",
+    "Functional Requirements Analysis using AI",
+    "Design Matrix Optimization through Machine Learning",
+    "Coupling and Decoupling in AI System Design",
+    "Multi-Domain AI Design Applications",
+    "Hierarchical Design Structures in AI",
+    "Design for Manufacturability with AI",
+    "Robust Design Principles in AI Systems",
+    "AI-Enhanced Design Process Optimization",
+    "Principled Approaches to AI Ethics in Design",
+    "Design Theory and AI Model Architecture",
+    "Systematic Innovation through AI and Axiomatic Design"
   ];
 
   const dates = [
