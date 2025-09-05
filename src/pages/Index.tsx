@@ -32,7 +32,7 @@ const Index = () => {
   return (
     <Layout currentPage="home">
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-start justify-center overflow-hidden pt-32">
+      <section className="relative min-h-[80vh] flex items-start justify-center overflow-hidden pt-16">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(/lovable-uploads/5a7e57c6-6550-4ab1-a7ae-f6459e6d4a79.png)` }}
