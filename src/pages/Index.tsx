@@ -44,11 +44,11 @@ const Index = () => {
           <Badge className="mb-6 bg-white/20 text-white border-white/30">
             June 24–25, 2026
           </Badge>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-bold mb-8 mt-32 leading-tight">
             Principled AI and Design
             <span className="block gradient-accent bg-clip-text text-transparent">@MIT</span>
           </h1>
-          <p className="text-xl md:text-2xl mb-8 mt-16 max-w-3xl mx-auto opacity-90">
+          <p className="text-xl md:text-2xl mb-12 max-w-3xl mx-auto opacity-90">
             Redefining roles: How humans and AI can co-create the Future of Design
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
