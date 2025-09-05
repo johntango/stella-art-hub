@@ -32,7 +32,7 @@ const Navigation = ({ currentPage }: NavigationProps) => {
               <div className="flex items-center space-x-2">
                 <div className="h-8 w-8 rounded-lg gradient-hero shadow-glow"></div>
                 <div className="flex flex-col">
-                  <span className="text-lg font-bold text-primary">AI & AX Design</span>
+                  <span className="text-lg font-bold text-primary">Principled AI and Design</span>
                   <span className="text-xs text-muted-foreground">Sponsored by ICAD 2026</span>
                 </div>
               </div>

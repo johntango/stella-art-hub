@@ -45,7 +45,7 @@ const Index = () => {
             June 24–25, 2026
           </Badge>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            AI & Axiomatic Design
+            Principled AI and Design
             <span className="block gradient-accent bg-clip-text text-transparent">@MIT</span>
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
