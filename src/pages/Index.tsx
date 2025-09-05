@@ -48,7 +48,7 @@ const Index = () => {
             Principled AI and Design
             <span className="block gradient-accent bg-clip-text text-transparent">@MIT</span>
           </h1>
-          <p className="text-xl md:text-2xl mb-12 max-w-3xl mx-auto opacity-90">
+          <p className="text-xl md:text-2xl mb-6 -mt-2 max-w-3xl mx-auto opacity-90">
             Redefining roles: How humans and AI can co-create the Future of Design
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
