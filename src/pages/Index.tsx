@@ -49,7 +49,7 @@ const Index = () => {
             <span className="block gradient-accent bg-clip-text text-transparent">@MIT</span>
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-            Redefining roles: How humans and machines can co-create the Future of Design
+            Redefining roles: How humans and AI can co-create the Future of Design
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="shadow-hero bg-white text-conference-dark hover:bg-white/90" asChild>
