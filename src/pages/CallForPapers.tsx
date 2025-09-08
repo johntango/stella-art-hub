@@ -81,7 +81,7 @@ const CallForPapers = () => {
             Call for Papers
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Submit your research to the premier conference on AI and UX Design. 
+            Submit your research to the premier conference on Principles of AI and Design. 
             Share your innovations with leading researchers and practitioners.
           </p>
           <div className="mt-8">
@@ -137,7 +137,7 @@ const CallForPapers = () => {
           <Card className="shadow-card">
             <CardContent className="p-8">
               <p className="text-center text-muted-foreground mb-8">
-                We welcome submissions on all aspects of AI and UX Design, including but not limited to:
+                We welcome submissions on all aspects of AI and Design, including but not limited to:
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
                 {topics.map((topic, index) => (
