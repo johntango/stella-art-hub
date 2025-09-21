@@ -21,7 +21,7 @@ const Program = () => {
     {
       time: "9:15 - 10:00",
       title: "The Future of AI and Human Creativity",
-      speaker: "Dr. Yann LeCun",
+      speaker: "Dr. Nam P. Suh",
       affiliation: "Meta AI",
       type: "keynote",
       location: "Main Auditorium"

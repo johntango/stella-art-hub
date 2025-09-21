@@ -8,8 +8,8 @@ const Dates = () => {
     {
       category: "Call for Papers",
       dates: [
-        { event: "Paper Submission Opens", date: "October 1, 2025", status: "completed" },
-        { event: "Abstract Submission Deadline", date: "December 15, 2025", status: "completed" },
+        { event: "Paper Submission Opens", date: "October 1, 2025", status: "upcoming" },
+        { event: "Abstract Submission Deadline", date: "December 15, 2025", status: "upcoming" },
         { event: "Full Paper Submission Deadline", date: "January 15, 2026", status: "upcoming" },
         { event: "Notification of Acceptance", date: "March 1, 2026", status: "future" },
         { event: "Camera-Ready Papers Due", date: "April 15, 2026", status: "future" }
@@ -18,7 +18,7 @@ const Dates = () => {
     {
       category: "Registration",
       dates: [
-        { event: "Early Bird Registration Opens", date: "November 1, 2025", status: "completed" },
+        { event: "Early Bird Registration Opens", date: "November 1, 2025", status: "upcoming" },
         { event: "Early Bird Deadline", date: "March 1, 2026", status: "upcoming" },
         { event: "Regular Registration Deadline", date: "May 1, 2026", status: "future" },
         { event: "Student Registration Deadline", date: "May 15, 2026", status: "future" },

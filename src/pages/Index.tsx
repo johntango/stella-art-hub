@@ -24,9 +24,9 @@ const Index = () => {
   ];
 
   const speakers = [
-    { name: "Dr. Yann LeKun", affiliation: "Meta AI", topic: "The Future of AI and Human Creativity" },
-    { name: "Susan Care", affiliation: "Apple (Former)", topic: "Design in the Age of AI" },
-    { name: "Dr. Fei-Fei Zu", affiliation: "Stanford HAI", topic: "Human-Centered AI" }
+    { name: "Dr. Nam P. Suh", affiliation: "MIT", topic: "The Future of AI and Human Creativity" },
+    { name: "Dr. A. Henry", affiliation: "Apple (Former)", topic: "Design in the Age of AI" },
+    { name: "Dr. Fei Zu", affiliation: "Stanford HAI", topic: "Human-Centered AI" }
   ];
 
   return (
