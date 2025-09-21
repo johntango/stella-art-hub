@@ -90,7 +90,7 @@ const Dates = () => {
               <Calendar className="h-12 w-12 mx-auto mb-4 opacity-90" />
               <h2 className="text-3xl font-bold mb-2">Conference Dates</h2>
               <p className="text-xl mb-4 opacity-90">June 24–25, 2026</p>
-              <p className="text-lg opacity-80">Moscone Center West, San Francisco, CA</p>
+              <p className="text-lg opacity-80">Samberg Center, MIT, Cambridge, MA</p>
             </CardContent>
           </Card>
         </section>
