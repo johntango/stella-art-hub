@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { NavLink } from "react-router-dom"; // ✅ use React Router navigation
 
 interface NavigationProps {
   currentPage: string;
@@ -48,7 +49,7 @@ const Navigation = ({ currentPage }: NavigationProps) => {
                   asChild
                   className="transition-smooth"
                 >
-                  <a href={item.href}>{item.label}</a>
+                  <NavLink to={item.href}>{item.label}</NavLink>
                 </Button>
               ))}
               <ThemeToggle />
@@ -81,7 +82,7 @@ const Navigation = ({ currentPage }: NavigationProps) => {
                   className="w-full justify-start transition-smooth"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <a href={item.href}>{item.label}</a>
+                  <NavLink to={item.href}>{item.label}</NavLink>
                 </Button>
               ))}
             </div>
