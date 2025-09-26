@@ -42,14 +42,14 @@ const Index = () => {
         
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
           <Badge className="mb-6 bg-white/20 text-white border-white/30">
-            June 24–25, 2026
+            NY and Boston 2026
           </Badge>
           <h1 className="text-5xl md:text-7xl font-bold mb-8 mt-32 leading-tight">
-            Principled AI and Design
-            <span className="block gradient-accent bg-clip-text text-transparent">@MIT</span>
+            Stella Art Hub 
+            <span className="block gradient-accent bg-clip-text text-transparent">@BOSTON</span>
           </h1>
           <p className="text-xl md:text-2xl mb-6 -mt-2 max-w-3xl mx-auto opacity-90">
-            Redefining roles: How humans and AI can co-create the Future of Design
+            Redefining roles: How humans and AI can co-create the Future of Art
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="shadow-hero bg-white text-conference-dark hover:bg-white/90" asChild>
@@ -98,7 +98,7 @@ const Index = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-6">Keynote Speakers</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Learn from the pioneers who are defining the intersection of AI and design
+              Learn from the pioneers who are defining the role of AI in art
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -123,7 +123,7 @@ const Index = () => {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-6">Ready to Join Us?</h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Don't miss this opportunity to be part of the conversation shaping the future of AI and design.
+            Don't miss this opportunity to be part of the conversation shaping the future of AI and art.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-hero" asChild>
